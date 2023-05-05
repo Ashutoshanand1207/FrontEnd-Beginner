@@ -1,0 +1,61 @@
+//Get the element from the DOM
+const quoteText = document.getElementById("qoute");
+const quoteAuthor = document.getElementById("author");
+const newQuoteButton = document.getElementById("new-quote");
+const tweetQuoteButton = document.getElementById("tweet-qoute");
+
+//Generate the quote
+newQuoteButton.addEventListener('click',getQuote)
+async function getQuote(){
+    const url = 'https://quotes-inspirational-quotes-motivational-quotes.p.rapidapi.com/quote?token=ipworld.info';
+    const options = {
+        method: 'GET',
+        headers: {
+            'X-RapidAPI-Key': '01dc829c8cmsh269dc45090913a2p189883jsnbd0f8b0f4034',
+            'X-RapidAPI-Host': 'quotes-inspirational-quotes-motivational-quotes.p.rapidapi.com'
+        }
+    };
+
+    try {
+        const response = await fetch(url, options);
+        const result = await response.json();
+        console.log(result["results"])
+        // for(let i = 0;i < result["results"].length;i++){
+        //     let quote = result["results"][i]["quote"]
+        //     let author = result["results"][i]["author"]
+        //     console.log(quote, author);
+        //     quoteText.textContent = quote;
+        //     quoteAuthor.textContent = author;
+        // }
+        let quote = result["results"][0]["quote"]
+        let author = result["results"][0]["author"]
+        console.log(quote, author);
+        quoteText.textContent = quote;
+        quoteAuthor.textContent = author;
+    } catch (error) {
+        console.error(error);
+    }
+}
+//Update and display
+// function displayQuote(){
+//     const {quote, author} = getQuote().then(
+//         function(value){console.log(value)}
+//     );
+//     // console.log(quote,author);
+//     quoteText.textContent = quote;
+//     quoteAuthor.textContent = author;
+// }
+
+// //Tweet the current quote
+// function tweetQuote(){
+//     const tweetText = `${quoteText.textContent} - ${quoteAuthor.textcontent}`;
+//     const tweetUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}`;
+//     window.open(twwetUrl);
+// }
+
+// //event listener
+// newQuoteButton.addEventListener("click",displayQuote);
+// tweetQuoteButton.addEventListener("click", tweetQuote);
+
+// //Intial Quote display
+// displayQuote();
